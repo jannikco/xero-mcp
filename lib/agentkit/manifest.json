@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "product": "pipmcp",
+  "credential": "PIPMCP_API_KEY",
+  "skills": [
+    {
+      "name": "pipmcp-xero",
+      "description": "Connect AI agents to Xero using one PipMCP API key and actual hosted tool discovery."
+    }
+  ],
+  "files": {
+    "skills/pipmcp-xero/SKILL.md": "7930855c3981124848014bc693afaaa4ba5b870986f6ed95936fc2b99d93f758"
+  }
+}
