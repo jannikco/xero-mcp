@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "xero-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "product": "pipmcp",
   "artifactType": "Hosted connector client",
   "credential": "PIPMCP_API_KEY",

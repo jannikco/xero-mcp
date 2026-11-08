@@ -12,7 +12,7 @@
   "maintainer": "jannikco",
   "license": "MIT",
   "attributionSlug": "github-xero-mcp",
-  "sourceRevision": "1efd21cdb8666c198b7914d44a46adb942795ef3f184c5a8634a2351dead25c8",
+  "sourceRevision": "6a5a6a56d2350c451657f2382c4c0e7c871e6896e40774f053b361cf630aaa9a",
   "qualityVersion": 2,
   "artifactType": "connector",
   "evidence": [
@@ -30,7 +30,7 @@
   "appName": "Xero",
   "connectorId": "xero",
   "executionAuthority": "pipmcp-gateway",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "agentReady": true,
   "capabilityEvidence": {
     "local": {

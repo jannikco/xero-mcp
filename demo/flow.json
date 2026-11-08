@@ -1,0 +1,53 @@
+{
+  "id": "xero-contact-tax-review",
+  "repositoryId": "xero-mcp",
+  "product": "pipmcp",
+  "connectorId": "xero",
+  "title": "Review Xero contact tax details",
+  "promise": "Prepare a checklist of contacts missing a tax number, without altering accounting records.",
+  "sourceRevision": "6a5a6a56d2350c451657f2382c4c0e7c871e6896e40774f053b361cf630aaa9a",
+  "credential": "PIPMCP_API_KEY",
+  "transport": "pipmcp-gateway",
+  "sourceRefs": [
+    "https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml"
+  ],
+  "readTask": {
+    "intent": "Prepare a checklist of contacts missing a tax number, without altering accounting records.",
+    "requiredCapability": "Read-only authorized account data; discover actual names and schemas first"
+  },
+  "synthetic": {
+    "strategy": "equals",
+    "field": "taxNumberPresent",
+    "value": false,
+    "records": [
+      {
+        "id": "synthetic-xero-c1",
+        "name": "Synthetic Supplier A",
+        "taxNumber": null
+      },
+      {
+        "id": "synthetic-xero-c2",
+        "name": "Synthetic Supplier B",
+        "taxNumber": "SYNTHETIC-TAX-NUMBER"
+      }
+    ],
+    "input": {
+      "limit": 10
+    },
+    "normalization": "Invented normalized review fields demonstrate task logic; live provider schemas and field mappings must be reviewed separately.",
+    "expectedReviewCount": 1,
+    "asOf": "2026-11-08T00:00:00Z",
+    "normalize": {
+      "type": "value-present",
+      "sourceField": "taxNumber"
+    }
+  },
+  "livePolicy": {
+    "default": "preflight-only",
+    "explicitReadSelectionRequired": true,
+    "providerWritesAllowed": false,
+    "sandboxWritesRequireSeparateApproval": true
+  },
+  "baseSourceRevision": "1efd21cdb8666c198b7914d44a46adb942795ef3f184c5a8634a2351dead25c8",
+  "releaseVersion": "1.1.0"
+}

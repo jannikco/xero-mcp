@@ -1,3 +1,6 @@
 node_modules/
 .env
 .env.*
+
+synthetic-report.json
+revenue-read-report.json
