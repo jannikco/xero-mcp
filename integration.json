@@ -5,20 +5,23 @@
   "releaseEligible": true,
   "maintainer": "jannikco",
   "license": "MIT",
-  "sourceRevision": "4af51a11e04c36a153ad0af810c25f6801f7113c566c176ee9a17acdbac92a33",
+  "sourceRevision": "e232002ce41b902b0e86ce668ec6ef39e73e68927923b27bf6b913cddf021bbc",
   "evidence": [
-    "Source-backed provider setup metadata",
-    "Offline configuration and MCP protocol tests"
+    "Actual tools/call and direct-provider request contract tests"
   ],
   "provenance": [
     "https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml"
   ],
   "id": "xero-mcp",
-  "kind": "mcp-setup",
+  "kind": "provider-connector",
   "product": "pipmcp",
-  "title": "Xero MCP setup and connection checker",
-  "description": "Generate Xero MCP client configuration, inspect available tools and validate hosted endpoint access through PipMCP.",
-  "operationIds": [],
+  "title": "Xero MCP server",
+  "description": "Review contacts in one authorized Xero organization and add contacts after approval.",
+  "operationIds": [
+    "xero_list_contacts",
+    "xero_get_contact",
+    "xero_create_contacts"
+  ],
   "appSlug": "xero",
   "appName": "Xero",
   "providerDocs": "https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml",
@@ -29,6 +32,10 @@
       "client_id",
       "client_secret"
     ],
+    "settings": {
+      "scopes": "",
+      "token_url": "https://identity.xero.com/connect/token"
+    },
     "requiredHeaderNames": [],
     "helpUrl": "https://developer.xero.com/documentation/guides/oauth2/custom-connections/",
     "tenantRequired": false,
@@ -36,5 +43,339 @@
       "xero_tenant_id"
     ]
   },
-  "attributionSlug": "github-xero-mcp"
+  "attributionSlug": "github-xero-mcp",
+  "artifactType": "connector",
+  "qualityVersion": 2,
+  "connectorId": "xero",
+  "connector": {
+    "id": "xero",
+    "name": "Xero",
+    "version": "0.1.0",
+    "baseUrl": "https://api.xero.com/api.xro/2.0",
+    "auth": {
+      "type": "oauth-access-token",
+      "env": "XERO_ACCESS_TOKEN",
+      "extraHeaders": {
+        "xero-tenant-id": {
+          "env": "XERO_TENANT_ID"
+        }
+      }
+    },
+    "tools": [
+      {
+        "name": "xero_list_contacts",
+        "description": "xero list contacts",
+        "method": "GET",
+        "path": "/Contacts",
+        "readOnly": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [],
+          "query": {
+            "page": "page"
+          },
+          "body": {}
+        },
+        "approvalRequired": false,
+        "provenance": [
+          "https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml"
+        ],
+        "evidence": {
+          "state": "documented",
+          "providerLiveValidation": "not-run"
+        },
+        "sampleArguments": {}
+      },
+      {
+        "name": "xero_get_contact",
+        "description": "xero get contact",
+        "method": "GET",
+        "path": "/Contacts/{ContactID}",
+        "readOnly": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "ContactID": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "ContactID"
+          ],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [
+            "ContactID"
+          ],
+          "query": {},
+          "body": {}
+        },
+        "approvalRequired": false,
+        "provenance": [
+          "https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml"
+        ],
+        "evidence": {
+          "state": "documented",
+          "providerLiveValidation": "not-run"
+        },
+        "sampleArguments": {
+          "ContactID": "00000000-0000-4000-8000-000000000001"
+        }
+      },
+      {
+        "name": "xero_create_contacts",
+        "description": "xero create contacts",
+        "method": "PUT",
+        "path": "/Contacts",
+        "readOnly": false,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "contacts": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "Name": {
+                    "type": "string"
+                  },
+                  "EmailAddress": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Name"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "contacts"
+          ],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [],
+          "query": {},
+          "body": {
+            "contacts": "Contacts"
+          }
+        },
+        "approvalRequired": true,
+        "provenance": [
+          "https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml"
+        ],
+        "evidence": {
+          "state": "documented",
+          "providerLiveValidation": "not-run"
+        },
+        "sampleArguments": {
+          "contacts": [
+            {
+              "Name": "Sandbox Example",
+              "EmailAddress": "sandbox@example.com"
+            }
+          ]
+        }
+      }
+    ],
+    "workflow": {
+      "name": "xero-workflow",
+      "description": "Review contacts in one authorized Xero organization and add contacts after approval.",
+      "steps": [
+        "xero_list_contacts",
+        "xero_get_contact",
+        "xero_create_contacts"
+      ]
+    },
+    "provenance": [
+      "https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml"
+    ],
+    "sourceEvidence": {
+      "state": "documented",
+      "providerLiveValidation": "not-run",
+      "checkedAt": "2026-11-08",
+      "operationCount": 3,
+      "kind": "official-openapi",
+      "sha256": "bf9b7af186c56324594345a4e9e1b9ce8ff48d75c8ecfc97d36756fcacdced9c"
+    },
+    "setup": {
+      "requiresPipMcpAccount": false,
+      "credentialsHelpUrl": "https://developer.xero.com/documentation/guides/oauth2/custom-connections/",
+      "instructions": "Create your own Xero OAuth PKCE app and register http://127.0.0.1:42813/callback. Set XERO_CLIENT_ID and XERO_OAUTH_SCOPES to scopes approved for your app. Set XERO_TENANT_ID to the organization ID returned by Xero connections. A manually supplied XERO_ACCESS_TOKEN is an alternative; no PipMCP account is needed."
+    },
+    "oauth": {
+      "authorizationUrl": "https://login.xero.com/identity/connect/authorize",
+      "tokenUrl": "https://identity.xero.com/connect/token",
+      "clientIdEnv": "XERO_CLIENT_ID",
+      "scopeEnv": "XERO_OAUTH_SCOPES",
+      "pkce": true,
+      "redirectPort": 42813,
+      "documentation": "https://developer.xero.com/documentation/guides/oauth2/pkce-flow/"
+    },
+    "sampleWarning": "Example IDs are placeholders, not known provider records. Replace them with authorized sandbox/account IDs. Contact emails, file URLs and recipient numbers must be replaced with data you are authorized to use. Examples never authorize a write.",
+    "repoId": "xero-mcp",
+    "appSlug": "xero",
+    "product": "pipmcp",
+    "artifactType": "connector",
+    "sourceRevision": "e232002ce41b902b0e86ce668ec6ef39e73e68927923b27bf6b913cddf021bbc",
+    "capabilityEvidence": {
+      "local": {
+        "level": "Tested",
+        "operations": [
+          {
+            "name": "xero_list_contacts",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          },
+          {
+            "name": "xero_get_contact",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          },
+          {
+            "name": "xero_create_contacts",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          }
+        ],
+        "evidenceRefs": [
+          "Provider request/stdio contract tests"
+        ],
+        "mode": "local"
+      },
+      "managed": {
+        "level": "Documented",
+        "operations": [
+          {
+            "name": "xero_list_contacts",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          },
+          {
+            "name": "xero_get_contact",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          },
+          {
+            "name": "xero_create_contacts",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          }
+        ],
+        "evidenceRefs": [],
+        "mode": "managed"
+      }
+    },
+    "authentication": {
+      "type": "oauth2_client_credentials",
+      "requiredCredentialFields": [
+        "client_id",
+        "client_secret"
+      ],
+      "settings": {
+        "scopes": "",
+        "token_url": "https://identity.xero.com/connect/token"
+      },
+      "requiredHeaderNames": [],
+      "helpUrl": "https://developer.xero.com/documentation/guides/oauth2/custom-connections/",
+      "tenantRequired": false,
+      "accountParameterNames": [
+        "xero_tenant_id"
+      ]
+    },
+    "managedAvailability": {
+      "status": "listed",
+      "checkedAt": "2026-11-08T12:29:10.433747+00:00"
+    }
+  },
+  "capabilityEvidence": {
+    "local": {
+      "level": "Tested",
+      "operations": [
+        {
+          "name": "xero_list_contacts",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "xero_get_contact",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "xero_create_contacts",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        }
+      ],
+      "evidenceRefs": [
+        "Provider request/stdio contract tests"
+      ],
+      "mode": "local"
+    },
+    "managed": {
+      "level": "Documented",
+      "operations": [
+        {
+          "name": "xero_list_contacts",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "xero_get_contact",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "xero_create_contacts",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        }
+      ],
+      "evidenceRefs": [],
+      "mode": "managed"
+    }
+  },
+  "utility": {
+    "problem": "Review contacts in one authorized Xero organization and add contacts after approval.",
+    "output": "Actual provider API results through local MCP tools"
+  }
 }
