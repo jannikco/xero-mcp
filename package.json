@@ -1,0 +1,15 @@
+{
+  "name": "xero-mcp",
+  "version": "0.1.0",
+  "description": "Generate Xero MCP client configuration, inspect available tools and validate hosted endpoint access through PipMCP.",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test",
+    "start": "node example.mjs"
+  }
+}

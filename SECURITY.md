@@ -1,0 +1,1 @@
+Report vulnerabilities through https://pipmcp.com/contact. Ask for a private reporting channel before sharing sensitive details. Never include API keys, session tokens or personal records in public issues. Runtime credentials stay in your environment.

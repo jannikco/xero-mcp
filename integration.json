@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "status": "ready",
+  "verification": "mock-only",
+  "releaseEligible": true,
+  "maintainer": "jannikco",
+  "license": "MIT",
+  "sourceRevision": "4af51a11e04c36a153ad0af810c25f6801f7113c566c176ee9a17acdbac92a33",
+  "evidence": [
+    "Source-backed provider setup metadata",
+    "Offline configuration and MCP protocol tests"
+  ],
+  "provenance": [
+    "https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml"
+  ],
+  "id": "xero-mcp",
+  "kind": "mcp-setup",
+  "product": "pipmcp",
+  "title": "Xero MCP setup and connection checker",
+  "description": "Generate Xero MCP client configuration, inspect available tools and validate hosted endpoint access through PipMCP.",
+  "operationIds": [],
+  "appSlug": "xero",
+  "appName": "Xero",
+  "providerDocs": "https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml",
+  "providerWebsite": "https://www.xero.com/",
+  "authentication": {
+    "type": "oauth2_client_credentials",
+    "requiredCredentialFields": [
+      "client_id",
+      "client_secret"
+    ],
+    "requiredHeaderNames": [],
+    "helpUrl": "https://developer.xero.com/documentation/guides/oauth2/custom-connections/",
+    "tenantRequired": false,
+    "accountParameterNames": [
+      "xero_tenant_id"
+    ]
+  },
+  "attributionSlug": "github-xero-mcp"
+}
